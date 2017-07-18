@@ -56,7 +56,15 @@ class ProductModelTest(TestCase):
             self.assertEquals(max_length,1000)
         except Product.DoesNotExist:
             product = None
-        
+
+    def test_get_absolute_url(self):
+        try:
+            product = Product.objects.get(id=1)
+            self.assertEquals(author.get_absolute_url(),'/catalog/product/1')
+        except Product.DoesNotExist:
+            product = None
+            
+            
         
         
         
