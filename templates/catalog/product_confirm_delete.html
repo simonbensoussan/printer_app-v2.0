@@ -1,0 +1,12 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete : {{ product }} ?</p>
+    <input type="submit" value="Confirm" />
+   <a href = "{% url 'product' %}">Back to List Product" </a>
+</form>
+
+{% endblock %}

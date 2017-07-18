@@ -1,0 +1,16 @@
+{%  extends "catalog/base.html" %}
+
+{% block content%}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <table>
+ <!--Autre solution pour l'affichage voir la doc mozilla : https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms
+      {% include 'catalog/form.html'   %}-->
+       {{ form.as_table }}
+    </table>
+  
+    <input type="submit" value="Submit"/>
+</form>
+
+{% endblock%}

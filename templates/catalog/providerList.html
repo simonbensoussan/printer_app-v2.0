@@ -1,0 +1,19 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+    <h1>Provider List</h1>
+    {% if provider_list %}
+    <ul>
+
+      {% for p in provider_list %}
+      <li>
+        <a href="#">{{ p.name }}</a> ({{p.email}})
+      </li>
+             
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>There are no Provider in the library.</p>
+    {% endif %}     
+{% endblock%}
