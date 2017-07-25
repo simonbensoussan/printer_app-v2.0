@@ -30,14 +30,17 @@ def get_delete_update_stock(request, pk):
     except Stocks.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    # get details of a single puppy
+    # get details of a single stock
     if request.method == 'GET':
         serializer = StockSerializer(stock)
         return Response(serializer.data)
-    # delete a single puppy
+    # delete a single stock
     elif request.method == 'DELETE':
-        return Response({})
-    # update details of a single puppy
+        stock.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+       # for testing return Response({})
+       
+    # update details of a single stock
     elif request.method == 'PUT':
         serializer = StockSerializer(stock, data=request.data)
         if serializer.is_valid():

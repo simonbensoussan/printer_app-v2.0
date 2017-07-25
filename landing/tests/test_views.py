@@ -88,7 +88,7 @@ class CreateNewPuppyTest(TestCase):
 
 
 class test_update_valid_method_put_stock(TestCase):
-    """ Test module for updating an existing stock record """
+    """ Test module for updating an existing stock record method PUT"""
 
     def setUp(self):
         self.sony = Stocks.objects.create(name= 'SONY',open=1235.56,volume=4500)
@@ -120,3 +120,21 @@ class test_update_valid_method_put_stock(TestCase):
         data=json.dumps(self.invalid_payload),
         content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteSinglePuppyTest(TestCase):
+    """ Test module for deleting an existing puppy record method DELETE"""
+
+    def setUp(self):
+        self.sony = Stocks.objects.create(name= 'SONY',open=1235.56,volume=4500)
+        self.kodak = Stocks.objects.create(name= 'KODAK',open=256.56,volume=8500)
+
+    def test_valid_delete_object_stock(self):
+        response = client.delete(
+            reverse('get_delete_update_stock', kwargs={'pk': self.sony.pk}))
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_invalid_delete_object_stock(self):
+        response = client.delete(
+            reverse('get_delete_update_stock', kwargs={'pk': 30}))
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
