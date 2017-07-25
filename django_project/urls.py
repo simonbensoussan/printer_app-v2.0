@@ -26,7 +26,8 @@ from django.contrib import admin
 urlpatterns = [
 #   url('r^catalog/',views.Home, name='Home'), de base on appelle la app_nom.classe.fonction
     url(r'^catalog/', include('catalog.urls')),
- #   url(r'^landing/', include('landing.urls')),
+    url(r'^api/', include('landing.urls')),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', RedirectView.as_view(url ='/catalog/', permanent =False))  #si c'est l'unique app utilisé
 ]

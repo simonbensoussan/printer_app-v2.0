@@ -4,7 +4,11 @@ from django.db import models
 
 # Create your models here.
 
-class ApiTDD:
-    pass
-
+class Stocks(models.Model):
+    name = models.CharField(max_length=250)
+    open = models.FloatField()
+    volume = models.IntegerField()
     
+    def __str__(self):
+        """Return a human readable representation of the model instance."""
+        return '{}'.format(self.name)
