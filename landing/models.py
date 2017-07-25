@@ -16,6 +16,7 @@ class Stocks(models.Model):
 
     class Meta:
         verbose_name_plural = 'Mes Stocks'
+    
     def __str__(self):
         """Return a human readable representation of the model instance."""
         return '{}'.format(self.name)

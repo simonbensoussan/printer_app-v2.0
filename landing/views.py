@@ -1,3 +1,11 @@
+""" 
+ .https://realpython.com/blog/python/test-driven-development-of-a-django-restful-api/
+ .Second way to codez the view
+ .TODO SEARCH THE SAME THING WITH GENERIC
+MEMO GET = lister, DELETE = effacer, PUT = mise a jour, POST = Creer
+
+"""
+
 from django.shortcuts import render
 from rest_framework import generics
 from .serializer import StockSerializer
@@ -17,12 +25,17 @@ class CreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         """Save the post data when creating a new bucketlist."""
         serializer.save()
-"""-----------------------------------------------------------------------------------------"""
-#https://realpython.com/blog/python/test-driven-development-of-a-django-restful-api/
-#Second way to codez the view
-# TODO SEARCH THE SAME THING WITH GENERIC
-""" MEMO GET = lister, DELETE = effacer, PUT = mise a jour, POST = Creer"""
-
+        
+class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
+    """This class defines the update,delete,get behavior of our rest api."""
+    queryset = Stocks.objects.all()
+    serializer_class = StockSerializer
+    
+    def perform_create(self, serializer):
+        """Save the post data when creating a new bucketlist."""
+        serializer.save()
+    
+# test without generic views
 @api_view(['GET', 'DELETE', 'PUT'])
 def get_delete_update_stock(request, pk):
     try:
