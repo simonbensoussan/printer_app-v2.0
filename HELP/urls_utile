@@ -1,0 +1,26 @@
+URL UTILE POUR LE DEVELOPPEMENT :
+    1. http://apprendre-python.com/page-django-application-creer-python
+    2. https://tutorial.djangogirls.org/fr/django_start_project/
+    3. https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/skeleton_website
+ -------------------------------------------------------------------------------------------------------------------------
+    4. stackoverflow.com/questions/12578908/separation-of-business-logic-and-data-access-in-django --> Structure du projet entre model et views comment 81
+    5. http://djangobook.com/the-django-book/ => book django
+    6. http://www.idiotinside.com/2016/11/04/django-models-custom-manager-example/ another exemple
+    7. https://www.delahayeyourself.info/tps/lp2017-developpement-web-avance/tp06-des-modeles/
+    8. https://simpleisbetterthancomplex.com/tutorial/2016/10/04/how-to-use-django-flatpages-app.html
+    8a).https://docs.djangoproject.com/en/1.11/ref/contrib/flatpages/
+    9. https://docs.djangoproject.com/fr/1.11/ref/models/meta/
+    10.https://docs.djangoproject.com/fr/1.11/ref/forms/api/
+    11.https://docs.djangoproject.com/fr/1.11/topics/email/
+    12.https://pythonhosted.org/django-analytical/services/performable.html
+    13.https://simpleisbetterthancomplex.com/tutorial/2016/06/13/how-to-send-email.html
+    14.https://simpleisbetterthancomplex.com/2015/11/30/starting-a-new-django-18-project.html
+    
+------------ DISPLAY INTO TEMPLATE/ADMIN FOREIGNKEY FIELDAND MANYTOMANY FIELD ---------------------------------
+
+    15.https://stackoverflow.com/questions/12281965/django-foreign-key-relation-in-template
+    16.https://stackoverflow.com/questions/39263342/django-foreign-key-relation-and-display-in-template
+    19.https://stackoverflow.com/questions/26071254/display-manytomanyfield-in-a-template-in-django
+    20.https://stackoverflow.com/questions/18108521/many-to-many-in-list-display-django
+    21.http://amir.rachum.com/blog/2013/06/15/a-case-for-a-onetomany-relationship-in-django/
+    22.https://gist.github.com/jacobian/827937
