@@ -10,7 +10,7 @@ class Provider(models.Model):
     name = models.CharField(max_length = 255)
     surname = models.CharField(max_length = 255)
     email = models.EmailField() 
-    remise = models.FloatField()
+    nbre_product = models.IntegerField(default= 0)
     
     # Metadata
     # class Meta: 
@@ -18,24 +18,17 @@ class Provider(models.Model):
 
   #  Methods
     def get_absolute_url(self):
-         """
-         Returns the url to access a particular instance of MyModelName.
-         """
+         """ Returns the url to access a particular instance of MyModelName."""
+         
          return reverse('provider-detail-view', args=[str(self.id)])
     
+    
     def __str__(self):
-        """
-            def representing name and email of providers
-        """
-        return  "{0} -- {1} -- remise en % : {2}".format(self.name,self.email,self.remise)
-    
-    def _get_taux_calcul(self):
+        """def representing name  of providers"""
         
-        return self.remise/100
+        return  "{}".format(self.name.upper())
     
-    taux_pourcentage = property(_get_taux_calcul)
-
-
+    
 class MarketPlace(models.Model):
     """
         Model representing marketplace and their taxs
@@ -65,7 +58,7 @@ class MarketPlace(models.Model):
         """
             String for representing the Model marketplace
         """
-        return "name :{0} -- taux :{1} %".format(self.name,self.taux)
+        return "{}".format(self.name.upper())
    
     def _get_taux_calcul(self):
         return self.taux/100
@@ -79,18 +72,24 @@ class Product(models.Model):
     """
     name = models.CharField(max_length =255, verbose_name = "nom du produit")
     marque = models.CharField(max_length =255, verbose_name = "marque du produit")
-    image = models.CharField(max_length=1000, verbose_name = "image du produit", default="your img path", editable=True)
+    image = models.CharField(max_length=10000, verbose_name = "image du produit", default="your img path", editable=True)
     price_HT = models.FloatField(verbose_name ="prix public HT")
     marketplace = models.ManyToManyField('MarketPlace')
     provider = models.ForeignKey(Provider,on_delete = models.SET_NULL, null=True)
+    remise = models.FloatField()
+   
+    #@property
+    def _get_remise_calcul(self):
+        """Calcul le prix de revient final avec la remise en TTC"""
+        self.remise = self.remise/100
+        self.prix_final_HT = self.price_HT * (1-self.remise) 
+        # TVA de 20% donc prix(1+0.20) = prix*1.20
+        self.prix_final_TTC = self.prix_final_HT * 1.20 
+        return self.prix_final_TTC
     
-    
-    def _get_price_TTC(self):
-        """ prix public TTC """
-        return self.price_HT * 0.20 + self.price_HT
-        
-    price_TTC = property(_get_price_TTC)
-    
+    prix_final_TTC = property(_get_remise_calcul)
+     
+     
     class Meta :
         ordering = ["name","marque"]
     
@@ -103,8 +102,9 @@ class Product(models.Model):
     
     
     def __str__(self):
-        return "name :{0} -- marque :{1}".format(self.name,self.marque)
+        return "name :{0} -- marque :{1}".format(self.name,self.marque.upper())
     
+  
     
     def display_marketPlace(self):
         """
@@ -114,23 +114,6 @@ class Product(models.Model):
         return ', '.join([ marketplace.name for marketplace in self.marketplace.all()])
     display_marketPlace.short_description = 'MarketPlace'
   
-  
-  
-        
-# class Remise(models.Model):
-    
-#     """
-#       Model representing  Remise object in fonction the Provider price
-#     """
-#     fournisseur = models.ForeignKey(Provider)
-#     produit = models.ForeignKey(Product)
-#     remise = models.IntegerField(verbose_name = "remise en %")
-    
-#     class Meta:
-#         unique_together = ("fournisseur","produit")
-    
-#     def calculeRemise(self):
-#         pass
       
       
       

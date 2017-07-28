@@ -4,7 +4,7 @@
   <h1>Title: {{ product.name }}</h1>
 
    <p><img src="{{ product.image}}"></p> 
-  <p><strong>marque:</strong> <a href="">{{ product.marque }}</a></p> <!-- author detail link not yet defined -->
+  <p><strong>marque:</strong> {{ product.marque }}</a></p> <!-- author detail link not yet defined -->
   <p><strong>Prix:</strong> {{ product.price_HT }}</p>
   <p><strong>Provider:</strong> {{ product.provider.email }}</p>  
   <p><a href="{% url 'product-update' product.id %}">Update Product</a></p>  

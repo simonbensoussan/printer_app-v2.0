@@ -9,10 +9,10 @@ class ProductAdmin(admin.ModelAdmin):
     '''
     For display the CHOICES of marketPlace you have to insert the function display_marketPlace
     '''
-    list_display = ('name','marque','image','price_HT','price_TTC','provider','display_marketPlace')
+    list_display = ('name','marque','image','provider','price_HT','remise','prix_final_TTC','display_marketPlace')
 
 class ProviderAdmin(admin.ModelAdmin):
-    list_display = ('name','surname','email','remise')
+    list_display = ('name','surname','email','nbre_product')
    # fields  = ('name','surname','remise') for detail ofthe provider display the field
 
 class MarketPlaceAdmin(admin.ModelAdmin):

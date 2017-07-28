@@ -13,11 +13,13 @@ urlpatterns = [
         r'^stocks/(?P<pk>[0-9]+)$',
         views.get_delete_update_stock,
         name='get_delete_update_stock'
+        #name='detail'
     ),
     url(
         r'^stocks/$',
         views.get_post_stock,
         name='get_post_stock'
+        #name='create'
     )
 ]
 

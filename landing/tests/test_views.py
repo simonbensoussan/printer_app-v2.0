@@ -1,5 +1,5 @@
 """
-from rest_framework.test import *
+
 from rest_framework.views import APIView
 from rest_framework import *
 from django.core.urlresolvers import reverse
@@ -9,8 +9,13 @@ import json
 from rest_framework import status
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
-from ..serializer import StockSerializer
+from rest_framework.test import force_authenticate, APIClient
+from django.contrib.auth.models import User
+
+from landing.serializer import StockSerializer
 from landing.models import Stocks
+from landing.tests.test_models import ModelTestCase
+
 
 # initialize the APIClient app
 client = Client()
@@ -33,7 +38,7 @@ class GetAllStockTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
-class GetSinglePuppyTest(TestCase):
+class GetSingleStockTest(TestCase):
     """ Test module for GET single object ofstock by the primary key parameter API test method GET"""
 
     def setUp(self):
@@ -54,7 +59,7 @@ class GetSinglePuppyTest(TestCase):
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
 
-class CreateNewPuppyTest(TestCase):
+class CreateNewStockTest(TestCase):
     """ Test module for inserting a new object of type stock test method POST """
 
     def setUp(self):
@@ -65,7 +70,7 @@ class CreateNewPuppyTest(TestCase):
         }
 
         self.invalid_payload = {
-             'name': ' ',
+             'name': '',
              'open': 256.56,
              'volume': 0.001
         }
@@ -122,7 +127,7 @@ class test_update_valid_method_put_stock(TestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
-class DeleteSinglePuppyTest(TestCase):
+class DeleteSingleStockTest(TestCase):
     """ Test module for deleting an existing puppy record method DELETE"""
 
     def setUp(self):
@@ -138,3 +143,79 @@ class DeleteSinglePuppyTest(TestCase):
         response = client.delete(
             reverse('get_delete_update_stock', kwargs={'pk': 30}))
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+#------------------------------------------------------------------------------------------------------------------------------------
+
+class TestAPIAuthentificationViews(TestCase):
+    """Test suite for the api views.Test with new syntax and method we use APIClient() module"""
+    
+    def setUp(self):
+        """Define the test client and other test variables."""
+        
+        self.user = User.objects.create(username="nerd")
+        # Initialize client and force it to use authentication
+        self.client = APIClient()
+        self.client.force_authenticate(user=user,token=None)
+
+        # Since user model instance is not serializable, use its Id/PK
+        self.valid_payload = {
+            'name': 'KODAK',
+            'owner': user.id,
+            'open': 256.56,
+            'volume': 8500
+        }
+        response = self.client.post(
+            reverse('/stocks/'),
+            self.valid_payload,
+            format="json")
+            
+    # def test_valid_update_stock_object(self):
+    #     response = client.post(
+    #     reverse('get_post_stock'),
+    #     data=json.dumps(self.valid_payload),
+    #     content_type='application/json'
+    #     )
+    #     self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+    
+    def test_api_can_create_a_Stocks(self):
+        """Test the api has bucket creation capability."""
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_authorization_is_enforced(self):
+        """Test that the api has user authorization."""
+        new_client = APIClient()
+        res = new_client.get('/stocks/', kwargs={'pk': 3}, format="json")
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_api_can_get_a_Stocks(self):
+        """Test the api can get a given Stocks."""
+        Stocks = Stocks.objects.get(id=1)
+        response = self.client.get(
+            '/stocks/',
+            kwargs={'pk': Stocks.id}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertContains(response, Stocks)
+
+    def test_api_can_update_Stocks(self):
+        """Test the api can update a given Stocks."""
+        Stocks = Stocks.objects.get()
+        change_Stocks = {
+             'name': 'SONY',
+             'open': 256.56,
+             'volume': 500
+        }
+        res = self.client.put(
+            reverse('get_delete_update_stock', kwargs={'pk': Stocks.id}),
+            change_Stocks, format='json'
+        )
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+
+    def test_api_can_delete_Stocks(self):
+        """Test the api can delete a Stocks."""
+        Stocks = Stocks.objects.get()
+        response = self.client.delete(
+            reverse('get_delete_update_stock', kwargs={'pk': Stocks.id}),
+            format='json',
+            follow=True)
+        self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
