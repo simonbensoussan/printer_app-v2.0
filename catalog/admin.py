@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Provider,Product,MarketPlace
 # Register your models here.
 # username = ubuntu
-#password = ubuntu123
+#password = admin123
 # cutomize your admin interface create a class modelNameAdmin(admin.ModelAdmin)
 
 class ProductAdmin(admin.ModelAdmin):

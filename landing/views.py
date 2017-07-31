@@ -11,31 +11,41 @@ from rest_framework import generics
 from .serializer import StockSerializer
 from landing.models import Stocks
 # Create your views here.
-# import for the second way to test API
+# import for the second way to test API an other method 'decorator' for the api_view see the documentation rest framework
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework import permissions,generics
+from landing.permissions import IsOwner
 
 # Test with generic
 class CreateView(generics.ListCreateAPIView):
     """This class defines the create behavior of our rest api."""
+    """This class handles the GET and POSt requests of our rest api."""
     queryset = Stocks.objects.all()
     serializer_class = StockSerializer
-
+    permission_classes = (permissions.IsAuthenticated, IsOwner) # ADD THIS LINE
+    
     def perform_create(self, serializer):
         """Save the post data when creating a new bucketlist."""
-        serializer.save()
+        serializer.save(owner=self.request.user) # ADD owner=self.request.user
         
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
-    """This class defines the update,delete,get behavior of our rest api."""
+    """This class handles GET, PUT, PATCH and DELETE requests."""
+     
     queryset = Stocks.objects.all()
     serializer_class = StockSerializer
+    permission_classes = (permissions.IsAuthenticated,IsOwner)
     
     def perform_create(self, serializer):
         """Save the post data when creating a new bucketlist."""
-        serializer.save()
+        serializer.save(owner=self.request.user)
     
+    
+"""------------------- METHOD TWO FOR CREATE REST API VIEWS WITHOUT GENERIC -------------------------"""
+
 # test without generic views
+# with the decorator mode. module name api_views.
 @api_view(['GET', 'DELETE', 'PUT'])
 def get_delete_update_stock(request, pk):
     try:

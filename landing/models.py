@@ -9,7 +9,7 @@ def default_time():
     
 class Stocks(models.Model):
     name = models.CharField(max_length=250)
-    owner = models.ForeignKey('auth.User', related_name='stocks', on_delete=models.CASCADE)
+    owner = models.ForeignKey('auth.User', related_name='stocks', on_delete=models.CASCADE, null=True)
     open = models.FloatField()
     volume = models.IntegerField()
     created_at = models.DateTimeField(auto_now_add=True, auto_now=False)

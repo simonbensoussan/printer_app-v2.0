@@ -25,7 +25,7 @@ class StocksTestCase(TestCase):
         stock = Stocks(name ='SONY')
         self.assertEqual(str(stock), stock.name)
         
-
+"""--------------------------PERMISSION AUTHENTIFICATION REST API ------------------------------------------------"""
 class ModelTestCase(TestCase):
     """This class defines the test suite for the stocklists model. REST API with Authentification"""
 
