@@ -208,7 +208,7 @@ class TestAPIAuthentificationViews(TestCase):
     def test_api_can_update_Stocks(self):
         """Test the api can update a given Stocks and compare with the object initilize into the setUp() method"""
         
-        stocks = Stocks.objects.get() # or  stocks = Stocks.objects.get() work too !
+        stocks = Stocks.objects.get(name='SONY') # or  stocks = Stocks.objects.get() work too !
         change_Stocks = { 
              'name': 'FUJI',    #change the name 
              'volume': 500    #  change the volume

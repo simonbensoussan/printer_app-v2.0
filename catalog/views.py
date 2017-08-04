@@ -63,7 +63,7 @@ class ProductCreate(CreateView):
     with new class of type form.formModel everything is incorporate into the generic class
     '''
     model = Product
-    fields = ['name','marque','image','price_HT','marketplace','provider']
+    fields = ['name','marque','image','price_HT','marketplace','provider','remise']
 
 class ProductUpdate(UpdateView):
     '''

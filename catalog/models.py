@@ -78,17 +78,23 @@ class Product(models.Model):
     provider = models.ForeignKey(Provider,on_delete = models.SET_NULL, null=True)
     remise = models.FloatField()
    
-    #@property
-    def _get_remise_calcul(self):
-        """Calcul le prix de revient final avec la remise en TTC"""
-        self.remise = self.remise/100
-        self.prix_final_HT = self.price_HT * (1-self.remise) 
-        # TVA de 20% donc prix(1+0.20) = prix*1.20
-        self.prix_final_TTC = self.prix_final_HT * 1.20 
-        return self.prix_final_TTC
+    def _get_remise(self):
+       "Returns la remise en %"
+       return self.remise/100
+    remise_in_pourcentage = property(_get_remise)
     
-    prix_final_TTC = property(_get_remise_calcul)
-     
+    def _get_prix_HT(self):
+       "Returns le prix HT avec la remise comprise"
+       return  self.price_HT * (1-self.remise_in_pourcentage) 
+    prix_HT = property(_get_prix_HT)
+    
+    def _get_prix_final_TTC(self):
+        "Returns the prix total de vente avec la TVA inclue"
+        # TVA de 20% donc prix(1+0.20) = prix*1.20
+        return  self.prix_HT * 1.20 
+    prix_final_TTC = property(_get_prix_final_TTC)
+
+
      
     class Meta :
         ordering = ["name","marque"]
