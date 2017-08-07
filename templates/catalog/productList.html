@@ -12,7 +12,7 @@
       </li>
              {% for p in my_product_list.marketplace.all %}
               <li>
-                <a href="#">{{ p }}</a>
+                <a href="#">{{ p.marketplace }}</a>
               </li>
                 {% empty %}
                  <p>No Market</p>    

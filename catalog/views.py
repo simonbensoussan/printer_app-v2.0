@@ -44,6 +44,7 @@ class ProductListView(generic.ListView):
 class ProductDetailView(generic.DetailView):
     model = Product
     template_name = 'catalog/productDetail.html'
+    context_object_name = 'product' 
     
 # creer une autre view pour le provider
 class ProviderListView(generic.ListView):
@@ -64,7 +65,8 @@ class ProductCreate(CreateView):
     '''
     model = Product
     fields = ['name','marque','image','price_HT','marketplace','provider','remise']
-
+    #redirect to success template after registration
+    success_url = reverse_lazy('success_create')
 class ProductUpdate(UpdateView):
     '''
     Update a product

@@ -1,11 +1,29 @@
 {% extends "catalog/base.html" %}
 
 {% block content %}
+{% block javascript %}
+       
+        <script type="text/javascript">
+            $(document).ready(function(){
+
+                $(".testAlert").hide();
+              
+                var tc = "{{product.prix_final_TTC}}";
+                var prix = $('#test').val();
+                if(tc > prix){
+                    
+                }
+                alert(prix);
+        });
+         
+        </script>
+    {% endblock%}
+    
   <h1>Title: {{ product.name }}</h1>
 
    <p><img src="{{ product.image}}"></p> 
-  <p><strong>marque:</strong> {{ product.marque }}</a></p> <!-- author detail link not yet defined -->
-  <p><strong>Prix:</strong> {{ product.price_HT }}</p>
+  <p><strong>marque:</strong> {{ product.marque }}</p> <!-- author detail link not yet defined -->
+  <p id ="prix"><strong>Prix:</strong> {{ product.price_HT }}</p>
   <p><strong>Provider:</strong> {{ product.provider.email }}</p>  
   <p><a href="{% url 'product-update' product.id %}">Update Product</a></p>  
 <p><a href="{% url 'product-delete' product.id %}">Delete Product</a></p>  
@@ -14,12 +32,17 @@
 <div style="margin-left:20px;margin-top:20px">
     
     <h4>MarketPlace</h4>
-     <!-- <p><strong>MarketPlace :</strong> -->
-     <!-- {% for m in products.markerplace.all %}-->
-     <!--   {{ m.name }}-->
-     <!--   {% empty %}-->
-     <!--       No tags!-->
-     <!-- {% endfor %}-->
-     <!--</p>  -->
+    <ul>
+    {% for market in product.marketplace.all %}
+    <li>{{ market.name }} -- {{market.taux}}</li>
+    {% endfor %}
+    </ul>
+    <p>Prix User</p>
+    <input type="text" name="test" id="test"/>
+    <div class="alert alert-info testAlert" role="alert">Test .... </div>
     
+    <!-- Contextual button for informational alert messages -->
+    <button type="button" class="btn btn-info testB">Show</button>
+    
+        
 {% endblock %}
